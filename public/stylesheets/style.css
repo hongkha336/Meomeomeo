@@ -1,0 +1,629 @@
+html,
+body {
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+}
+
+@viewport {
+  orientation: landscape;
+}
+
+.touch #fullscreen, .touch #rotate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed !important;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  overflow: hidden !important;
+}
+
+.room {
+  background-color: #b40a1d;
+  background-image: -o-radial-gradient(circle, #b40a1d 10%, #48140f 100%);
+  background-image: radial-gradient(circle, #b40a1d 10%, #48140f 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: progid:DXImageTransform.Microsoft.gradient(
+      startColorstr="#b40a1d",
+      endColorstr="#48140f",
+      GradientType=1
+    );
+
+  color: white !important;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 641px) {
+  /* small devices */
+  #loginInput {
+    width: 100% !important;
+  }
+
+  #loginInput .title {
+    font-size: 3.5em !important;
+  }
+
+  #input button {
+    width: 40% !important;
+  }
+
+  .popup {
+    min-width: 100% !important;
+  }
+
+  .card {
+    cursor: pointer !important;
+  }
+
+  #playerList {
+    float: right !important;
+  }
+
+  #chatbox {
+    float: left !important;
+  }
+}
+
+@media (max-height: 600px) {
+  .card {
+    zoom: 0.6;
+    margin-left: -40px;
+  }
+  #playArea .cardDisplay {
+    margin-top: 18% !important;
+  }
+  #playingInput a {
+    top: -12% !important;
+    font-size: 55px;
+  }
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#login {
+  /* display: none; */
+  color: white;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+}
+
+#lobby {
+  /* display: none; */
+  z-index: 9;
+}
+
+#loginInput {
+  width: 50%;
+  margin-top: 5%;
+}
+
+#loginInput .title {
+  font-size: 4em;
+  margin-bottom: 10px;
+  max-width: 100%;
+}
+
+#nameInput {
+  font-size: 20px;
+}
+
+#loginButton {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.error {
+  background: #d9534f;
+  border-radius: 5px;
+  font-size: 1em;
+  padding: 10px;
+  text-align: center;
+}
+
+#gameList {
+  height: 100%;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 0;
+  overflow: hidden;
+}
+
+#userList {
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.top-bar {
+  height: 35px;
+  line-height: 35px;
+  width: 100%;
+}
+
+#newGameButton {
+  float: right;
+  border-radius: 0px;
+}
+
+.content {
+  padding: 5px;
+  display: block;
+  height: calc(100% - 35px);
+  width: 100%;
+}
+
+.message {
+  margin-bottom: 5px;
+  word-wrap: break-word;
+}
+
+.message-error {
+  color: #d9534f;
+}
+
+.message-system {
+  color: #5bc0de;
+}
+
+.message-system-green {
+  color: #5cb85c;
+}
+
+.message-local {
+  color: #f0ad4e;
+}
+
+.user {
+  min-width: 100%;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.user:last-child {
+  border: none;
+}
+
+.user .status {
+  padding: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 24px;
+  transform: translateY(-2px);
+  border-radius: 4px;
+  margin-right: 5px;
+  float: right;
+}
+
+.user #name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-right: 5px;
+  max-width: 50%;
+  display: inline-block;
+}
+
+.user #name.status-blue {
+  border-radius: 4px;
+}
+
+.status-red {
+  background: #d9534f;
+}
+
+.status-green {
+  background: #5cb85c;
+}
+
+.status-blue {
+  background: #5bc0de;
+}
+
+.status-grey {
+  background: darkgrey;
+}
+
+.game {
+  background: rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  min-width: 30%;
+  text-align: center;
+  margin: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.game .title {
+  background: -webkit-linear-gradient(top, #fccb21, #ec1e21);
+  background: linear-gradient(top, #fccb21, #ec1e21);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.game #top {
+  height: 90%;
+  padding: 20px;
+}
+
+.game #bottom {
+  height: 10%;
+}
+
+.game #bottom button {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+/* The game room */
+#game {
+  z-index: 5;
+}
+
+#game #playArea {
+  display: flex;
+  align-content: center;
+  height: calc(100vh - 150px);
+  align-items: center;
+}
+
+#playArea #playInput {
+  width: 100%;
+}
+
+#playingInput {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 50%;
+}
+
+#playArea .cardDisplay .card:last-child {
+  margin-left: -400px;
+  -webkit-box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  -moz-box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+}
+
+#playArea .cardDisplay .card:first-child {
+  -webkit-box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  -moz-box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+}
+
+#playArea .cardDisplay .card {
+  margin-left: -175px;
+}
+
+#game #leave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  z-index: 25;
+}
+
+#input button {
+  width: 25%;
+}
+
+#waitingInput {
+  height: calc(100vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#playerList {
+  /* float: left; */
+  /* height: 100%; */
+  /* padding: 0; */
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  top: 10px;
+  left: 10px;
+  border-radius: 10px;
+  width: 200px;
+}
+
+#chatBox {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  top: 10px;
+  right: 10px;
+  width: 400px;
+  border-radius: 10px;
+}
+
+#chatBox .content {
+  padding: 10px;
+  height: 200px;
+  overflow: auto;
+}
+
+#playArea .cardInput {
+  margin: 0;
+  max-height: 250px;
+  min-height: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: none;
+}
+
+#playArea .cardDisplay {
+  padding-left: 15%;
+}
+
+#playingInput a {
+  position: absolute;
+  top: 0;
+}
+
+#playingInput .cardDisplay {
+  position: absolute;
+  left: 0;
+  bottom: -30px;
+}
+
+#messages {
+  display: none;
+}
+
+.cardDisplay {
+  width: 100%;
+  padding-top: 50px;
+  white-space: nowrap;
+  overflow-x: auto;
+  /* Dirty hack for safari mobile ┻━┻ ︵ヽ(`Д´)ﾉ︵﻿ ┻━┻ */
+  -webkit-overflow-scrolling: touch;
+}
+
+.card {
+  height: 250px;
+  width: 200px;
+  line-height: 125px;
+  background: transparent;
+  border-radius: 17px;
+  display: inline-block;
+  margin-right: -30px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.no-touch .card:hover {
+  margin-top: -30px !important;
+}
+
+.card:nth-child(odd) {
+  margin-top: 10px;
+}
+
+.card:nth-child(even) {
+  margin-top: 20px;
+}
+
+.card-selected {
+  -webkit-box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  -moz-box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  box-shadow: 5px 0px 8px 0px rgba(50, 50, 50, 0.68);
+  margin-top: -20px !important;
+  z-index: 100 !important;
+  position: relative;
+  transform: scale(1.2);
+  /* border-style: solid;
+  border-width: 10px; */
+  /* border-color: rgb(216 13 172); */
+}
+
+/* .card-nope {
+  color: #d42b31;
+  border: 5px solid #d42b31;
+} */
+
+/* .card-attack {
+  color: #c8a755;
+  border: 5px solid #c8a755;
+} */
+
+/* .card-skip {
+  color: #3da8aa;
+  border: 5px solid #3da8aa;
+} */
+
+/* .card-explode {
+  color: #cf1441;
+  border: 5px solid #cf1441;
+} */
+
+/* .card-future {
+  color: #ea6987;
+  border: 5px solid #ea6987;
+} */
+
+/* .card-favor {
+  color: #a9a097;
+  border: 5px solid #a9a097;
+} */
+
+/* .card-shuffle {
+  color: #973a36;
+  border: 5px solid #973a36;
+} */
+
+/* .card-regular {
+  color: #b58865;
+  border: 5px solid #b58865;
+} */
+
+.card-big {
+  height: 150px;
+  line-height: 150px;
+  width: 132px;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none; /* non-prefixed version, currently
+                                  not supported by any browser */
+  cursor: default;
+}
+
+#overlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#backdrop {
+  background: black;
+  opacity: 0.8;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.popup {
+  min-width: 400px;
+  min-height: 300px;
+  max-height: 400px;
+  max-width: 600px;
+  width: 100%;
+  height: 100%;
+  background: #19194c;
+  border: 5px #46469f solid;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.popup .container {
+  width: 100%;
+  height: calc(100% - 54px);
+}
+
+.popup .container #text {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 10px;
+}
+
+.popup .container .cardInput {
+  position: relative !important;
+}
+
+.popup .buttonGroup {
+  width: 100%;
+  height: 34px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.popup .cardDisplay {
+  margin-top: 22%;
+  overflow: visible;
+}
+
+.popup .cardDisplay .card {
+  margin-left: -130px !important;
+}
+
+.buttonGroup button {
+  width: 40%;
+}
+
+#favorWaitPopup {
+  min-height: 150px;
+  max-height: 200px;
+}
+
+#favorWaitPopup .container {
+  height: 100%;
+}
+
+.bigShakeText {
+  text-decoration: none !important;
+  display: block;
+  padding: 0;
+  border: 0;
+  font-family: "Bangers", cursive;
+  font-size: 70px;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #fff;
+  background: -webkit-linear-gradient(top, #fccb21, #ec1e21);
+  background: linear-gradient(top, #fccb21, #ec1e21);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bigShakeText:hover {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html land="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<link rel="manifest" href="/manifest.json">
+	<title>Exploding Kittens</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	 crossorigin="anonymous">
+
+	<!-- Game -->
+	<link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div id="fullscreen" class="room">
+			<a href="javascript:;" id="go-fullscreen" class="bigShakeText">Click!</a>
+			<div>to start playing!</div>
+		</div>
+		<div id="rotate" class="room">
+				<strong>Please</strong>
+				<a href="javascript:;" class="bigShakeText">rotate</a>
+				<strong>your screen</strong>
+			</div>
+		<div id="login" class="room">
+			<form id="loginInput">
+				<div class="center">
+					<img class="title" src="assets/images/logo.png" />
+					<input class="form-control" id="nameInput" type="text" placeholder="Type your name">
+					<center>
+						<button id="loginButton" class="bigShakeText" type="submit">Join</button>
+					</center>
+					</br>
+					<div class="error" style="display: none;"></div>
+				</div>
+			</form>
+		</div>
+		<div id="lobby" class="room">
+			<div id="gameList" class="col-md-10 col-sm-8 col-xs-12">
+				<div class="top-bar text-center">
+					Games
+					<span>
+						<button id="newGameButton" class="btn btn-success" type="button">New Game</button>
+					</span>
+				</div>
+				<div class="content">
+					<div class="game" data-id='#'>
+						<div id="top">
+							<div class="title">GAME</div>
+							<div id="status">STATUS</div>
+							<div id="players">PLAYERS</div>
+						</div>
+						<div id="bottom">
+							<button id="joinGameButton" class="btn btn-success" type="button">Join</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="userList" class="col-md-2 col-sm-4 col-xs-12">
+				<div class="top-bar text-center">Connected Users (0)</div>
+				<div class="content"></div>
+			</div>
+		</div>
+		<div id="game" class="room">
+			<div id="leave">
+				<div id="leaveButton" class="btn btn-danger">X</div>
+			</div>
+			<div id="overlay">
+				<div id="backdrop"></div>
+				<div id="givePopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Give x a card.
+							</div>
+							<div class="cardInput">
+								<div class="cardDisplay center text-center">
+									<img src="assets/cards/defuse.png" class="card card-defuse noselect" />
+									<img src="assets/cards/potato.png" class="card card-regular noselect" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button id="giveCardButton" class="btn btn-success" type="button">Give</button>
+					</div>
+				</div>
+				<div id="blindStealPopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Take a card from a player.
+							</div>
+							<div class="form-group">
+								<label for="player-select">Select player:</label>
+								<select class="form-control" id="player-select">
+									<option value="1">1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button id="blindStealButton" class="btn btn-success" type="button">Take</button>
+						<button id="cancelPopupButton" class="btn btn-danger" type="button" onclick="GameRoom.hideOverlay();">Cancel</button>
+					</div>
+				</div>
+				<div id="discardStealPopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Take a card from the discard pile.
+							</div>
+							<div class="cardInput">
+								<div class="cardDisplay center text-center">
+									<img src="assets/cards/defuse.png" class="card card-defuse noselect" />
+									<img src="assets/cards/potato.png" class="card card-regular noselect" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button id="discardStealButton" class="btn btn-success" type="button">Take</button>
+						<button id="cancelPopupButton" class="btn btn-danger" type="button" onclick="GameRoom.hideOverlay();">Cancel</button>
+					</div>
+				</div>
+				<div id="favorWaitPopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Wait for a favor from x.
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="namedStealPopup" style="min-height: 610px;min-width: 800px" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Select card to take from a player.
+							</div>
+							<div class="form-group">
+								<label for="player-select">Select player:</label>
+								<select class="form-control" id="player-select">
+										<option value="1">1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+								</select>
+							</div>
+							<div class="cardInput">
+								<div class="cardDisplay center text-center">
+									<img src="assets/cards/defuse.png" class="card card-defuse noselect" />
+									<img src="assets/cards/potato.png" class="card card-regular noselect" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button id="namedStealButton" class="btn btn-success" type="button">Take</button>
+						<button id="cancelPopupButton" class="btn btn-danger" type="button" onclick="GameRoom.hideOverlay();">Cancel</button>
+					</div>
+				</div>
+				<div id="seeFuturePopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								See the future
+							</div>
+							<div class="cardInput">
+								<div class="cardDisplay center text-center">
+									<img src="assets/cards/defuse.png" class="card card-defuse noselect" />
+									<img src="assets/cards/potato.png" class="card card-regular noselect" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button id="cancelPopupButton" class="btn btn-danger" type="button" onclick="GameRoom.hideOverlay();">OK</button>
+					</div>
+				</div>
+				<div id="favorSelectPopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Select a player to give do you a favor.
+							</div>
+							<div class="form-group">
+								<label for="player-select">Select player:</label>
+								<select class="form-control" id="player-select">
+										<option value="1">1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button id="favorSelectButton" class="btn btn-success" type="button">Ask</button>
+						<button id="cancelPopupButton" class="btn btn-danger" type="button" onclick="GameRoom.hideOverlay();">Cancel</button>
+					</div>
+				</div>
+				<div id="discardPilePopup" class="popup center text-center">
+					<div class="container">
+						<div id="content">
+							<div id="text">
+								Discard pile.
+							</div>
+							<div class="cardInput">
+								<div class="cardDisplay center text-center">
+									<img src="assets/cards/defuse.png" class="card card-defuse noselect" />
+									<img src="assets/cards/potato.png" class="card card-regular noselect" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="buttonGroup">
+						<button class="btn btn-danger" type="button" onclick="GameRoom.hideOverlay();">Close</button>
+					</div>
+				</div>
+			</div>
+			<div id="container">
+				<div id="playArea">
+					<div class="text-center" style="width: 100%;">
+						<!-- <div id="text" style="font-size: 2em; font-weight: bold;">Discard Pile</div>
+						<div id="playInput" class="text-center">
+							<button id="showDiscardButton" class="btn btn-success" type="button" onclick="GameRoom.showDiscardPileOverlay();">Show All Discard Pile</button>
+						</div> -->
+						<div class="cardDisplay">
+							<img class="card card-potato noselect" src="assets/cards/potato.png" />
+							<img class="card card-potato noselect" src="assets/cards/potato.png" />
+							<img class="card card-potato noselect" src="assets/cards/potato.png" />
+							<img class="card card-potato noselect" src="assets/cards/potato.png" />
+							<img class="card card-potato noselect" src="assets/cards/potato.png" />
+						</div>
+					</div>
+				</div>
+				<div id="input" class="text-center">
+					<div id="waitingInput">
+						<a href="javascript:;" id="startGameButton" class="bigShakeText">Start!</a>
+						<a href="javascript:;" id="readyGameButton" class="bigShakeText">Ready!</a>
+					</div>
+					<div id="playingInput">
+						<a href="javascript:;" id="playGameButton" class="bigShakeText">Play</a>
+						<a href="javascript:;" id="drawGameButton" class="bigShakeText">Draw</a>
+						<a href="javascript:;" id="nopeGameButton" class="bigShakeText">Nope!</a>
+						<div class="cardInput">
+							<div class="cardDisplay">
+								<img class="card card-defuse" src="assets/cards/defuse.png" />
+								<img class="card card-potato" src="assets/cards/potato.png" />
+								<img class="card card-skip" src="assets/cards/skip.png" />
+								<img class="card card-favor" src="assets/cards/favor.png" />
+								<img class="card card-attack" src="assets/cards/attack.png" />
+								<img class="card card-nope" src="assets/cards/nope.png" />
+								<img class="card card-shuffle" src="assets/cards/shuffle.png" />
+								<img class="card card-defuse" src="assets/cards/defuse.png" />
+								<img class="card card-potato" src="assets/cards/potato.png" />
+								<img class="card card-skip" src="assets/cards/skip.png" />
+								<img class="card card-favor" src="assets/cards/favor.png" />
+								<img class="card card-attack" src="assets/cards/attack.png" />
+								<img class="card card-nope" src="assets/cards/nope.png" />
+								<img class="card card-shuffle" src="assets/cards/shuffle.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="chat">
+				<div id="chatBox">
+					<div class="top-bar text-center">
+						Messages <a href="javascript:;" id="messages-toggle">(↑↓)</a>
+					</div>
+					<div id="messages" class="content">
+						<div class="message">
+							Welcome!
+						</div>
+					</div>
+				</div>
+				<div id="playerList">
+					<div class="top-bar text-center">
+						Players (0)
+					</div>
+					<div class="content">
+						<div class="user">
+							Player 1
+							<div class="status status-red">
+								Not Ready
+							</div>
+						</div>
+						<div class="user">
+							Player 2
+							<div class="status status-red">
+								Not Ready
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Dependencies -->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="javascript/libs/jquery-3.2.1.min.js"></script>
+	<script src="javascript/libs/jquery-migrate-3.0.0.min.js"></script>
+	<script src="javascript/libs/jquery.mobile.custom.min.js"></script>
+	<script src="javascript/game/constants.js"></script>
+	<script src="javascript/game/EK.js"></script>
+	<script src="javascript/game/rooms.js"></script>
+	<script src="javascript/game/logic.js"></script>
+</body>
+
+</html>
